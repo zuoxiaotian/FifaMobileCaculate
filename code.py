@@ -4,14 +4,12 @@ from itertools import permutations
 import json
 import sys
 
-
 home = [101, 107, 106, 121, 102, 106, 107, 106, 121, 102, 107, 106, 121, 102, 106, 107, 106, 121, 102, 107, 106, 121, 102, 106, 107, 106, 121, 102]
 away = [102, 104, 105, 106, 106, 101, 104, 105, 106, 106, 101, 104, 105, 106, 106, 101, 86, 105, 106, 106, 101, 94, 105, 106, 106, 106, 107, 106]
 
 if len(home) != len(away):
     print("Please check your input.")
     sys.exit(1)
-
 
 dic = {
     -6: 60,
@@ -29,7 +27,6 @@ dic = {
     6: 15    
 }
 
-
 home = sorted(home)
 away = sorted(away)
 
@@ -39,11 +36,9 @@ away_final = []
 while True:
     if home[-1] - away[-1] > 6:
         home_final.append(home[-1])
-        away_final.append(away[-1])
-        
+        away_final.append(away[-1])       
         del home[-1]
         del away[-1]
-        
     else:
         break
 
@@ -51,38 +46,28 @@ while True:
     if home[0] - away[0] < -6:
         home_final.append(home[0]) 
         away_final.append(away[-1])
-        
         del home[0]
         del away[-1]
-        
     else:
         break
-		
-
 
 def get_goal(n):
     n = 6 if n > 6 else n
     n = -6 if n < -6 else n
     return dic[n]
-	
 
 def find_best_small(home_perms, away_perms):
 
     max_goal = 0
     max_home = []
     max_away = []
-
-    
     x = 0
     for i in home_perms:
         x += 1
         home_perm = np.array(i)
         away_perm = np.array(away_perms)
-
         diff = away_perm - home_perm
-
         goals = [get_goal(x) for x in diff]
-
         sm = sum(goals)
         if sm > max_goal:    
             max_home = home_perm
@@ -92,9 +77,7 @@ def find_best_small(home_perms, away_perms):
 def find_best_large(home, away):
     x = 0
     sm = 0
-    
     best = []
-    
     for i in range(10000):
         
         random.shuffle(home)
@@ -112,9 +95,7 @@ def find_best_large(home, away):
                         found = True
             if not found:
                 break
-        
         diff = np.array(away) - np.array(home)
-        
         t = sum([get_goal(t) for t in diff])
         if sm < t:
             sm = t
