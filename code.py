@@ -10,7 +10,7 @@ away = [102, 104, 105, 106, 106, 101, 104, 105, 106, 106, 101, 104, 105, 106, 10
 if len(home) != len(away):
     print("Please check your input.")
     sys.exit(1)
-
+	
 dic = {
     -6: 60,
     -5: 51,
@@ -36,12 +36,21 @@ away_final = []
 while True:
     if home[-1] - away[-1] > 6:
         home_final.append(home[-1])
-        away_final.append(away[-1])       
+        away_final.append(away[-1])
         del home[-1]
         del away[-1]
     else:
         break
 
+while True:
+    if home[0] - away[0] > 6:
+        home_final.append(home[0])
+        away_final.append(away[0])
+        del home[0]
+        del away[0]
+    else:
+        break
+    
 while True:
     if home[0] - away[0] < -6:
         home_final.append(home[0]) 
@@ -55,9 +64,8 @@ def get_goal(n):
     n = 6 if n > 6 else n
     n = -6 if n < -6 else n
     return dic[n]
-
+	
 def find_best_small(home_perms, away_perms):
-
     max_goal = 0
     max_home = []
     max_away = []
@@ -79,7 +87,6 @@ def find_best_large(home, away):
     sm = 0
     best = []
     for i in range(10000):
-        
         random.shuffle(home)
         while True:
             found = False
@@ -112,7 +119,6 @@ home_res = get_best(home, away)
 diff = np.array(away) - home_res
 diff = np.append(diff, (np.array(away_final) - np.array(home_final)))
 goals = [get_goal(x) for x in diff]
-
 sm = sum(goals)
 
 for i, j in zip(np.append(home_res, np.array(home_final)), np.append(away, np.array(away_final))):
